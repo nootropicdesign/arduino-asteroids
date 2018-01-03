@@ -46,6 +46,7 @@ volatile unsigned int freq;
 volatile byte sound;
 byte explosionFreqIndex = 0;
 byte heartbeatFreq;
+uint32_t LOW_FREQ_OCR = F_CPU / 2 / 1024;
 
 TVout tv;
 
@@ -1396,7 +1397,7 @@ boolean getInput() {
       fired = true;
       input = true;
       freq = F2;
-      playTone(freq, 140, 9);
+      playTone(freq, 100, 9);
       sound = FIRE;
 
       byte ttl;
@@ -1699,7 +1700,9 @@ void soundISR() {
         if (explosionFreqIndex >= 100) {
           explosionFreqIndex = 0;
         }
-        setPWMFreq(pgm_read_byte(explosionFreq + explosionFreqIndex));
+        freq = pgm_read_byte(explosionFreq + explosionFreqIndex);
+        OCR2A = (LOW_FREQ_OCR / freq) - 1;
+        TCCR2B = 0b111;
       }
     }
   } else {
