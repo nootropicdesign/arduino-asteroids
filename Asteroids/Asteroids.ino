@@ -823,7 +823,7 @@ void drawShip() {
    This is the point-in-polygon algorithm adapted from
    http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 */
-boolean inPolygon(byte nvert, byte *xvert, byte *yvert, int x, int y) {
+boolean inPolygon(byte nvert, const uint8_t *xvert, const uint8_t *yvert, int x, int y) {
   char i, j;
   byte xvi, xvj, yvi, yvj;
   boolean inside = false;
@@ -842,8 +842,8 @@ boolean inPolygon(byte nvert, byte *xvert, byte *yvert, int x, int y) {
 boolean detectCollisions() {
   byte type;
   byte nverts;
-  byte *xvert, *yvert;
-  byte *shipxvert, *shipyvert;
+  const uint8_t *xvert, *yvert;
+  const uint8_t *shipxvert, *shipyvert;
 
   // For each asteroid
   for (byte i = 0; i < MAX_ASTEROIDS; i++) {
